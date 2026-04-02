@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>At Buffet Zone</title>
+  <style>
+    body {font-family: Arial; margin: 0; background: #f4f4f4;}
+    header {background: #333; color: white; padding: 20px; text-align: center;}
+    nav {background: #555; padding: 10px; text-align: center;}
+    nav a {color: white; margin: 10px; text-decoration: none;}
+    .hero {padding: 40px; text-align: center; background: #ddd;}
+    .section {padding: 20px;}
+    .menu {display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 15px;}
+    .card {background: white; padding: 15px; border-radius: 10px; box-shadow: 0 0 5px rgba(0,0,0,0.1);} 
+    button {padding: 8px 12px; border: none; background: #28a745; color: white; border-radius: 5px; cursor: pointer;}
+    .cart {background: white; padding: 15px; margin-top: 20px; border-radius: 10px;}
+    footer {background: #333; color: white; text-align: center; padding: 15px;}
+    input, textarea {width: 100%; padding: 8px; margin: 5px 0;}
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>At Buffet Zone</h1>
+  <p>All You Can Eat - Fresh & Delicious</p>
+</header>
+
+<nav>
+  <a href="#home">Home</a>
+  <a href="#menu">Menu</a>
+  <a href="#order">Order</a>
+  <a href="#contact">Contact</a>
+</nav>
+
+<div class="hero" id="home">
+  <h2>Welcome to At Buffet Zone</h2>
+  <p>Enjoy unlimited meals with a variety of dishes!</p>
+</div>
+
+<div class="section" id="menu">
+  <h2>Our Menu</h2>
+  <div class="menu">
+    <div class="card">
+      <h3>Grilled Chicken</h3>
+      <p>R80</p>
+      <button onclick="addToCart('Grilled Chicken',80)">Add</button>
+    </div>
+    <div class="card">
+      <h3>Beef Stew</h3>
+      <p>R90</p>
+      <button onclick="addToCart('Beef Stew',90)">Add</button>
+    </div>
+    <div class="card">
+      <h3>Rice & Veggies</h3>
+      <p>R50</p>
+      <button onclick="addToCart('Rice & Veggies',50)">Add</button>
+    </div>
+    <div class="card">
+      <h3>Desserts</h3>
+      <p>R40</p>
+      <button onclick="addToCart('Desserts',40)">Add</button>
+    </div>
+  </div>
+</div>
+
+<div class="section" id="order">
+  <h2>Your Order</h2>
+  <div class="cart" id="cart"></div>
+  <h3>Customer Details</h3>
+  <input type="text" id="name" placeholder="Your Name">
+  <input type="text" id="phone" placeholder="Phone Number">
+  <textarea id="address" placeholder="Delivery Address"></textarea>
+  <button onclick="placeOrder()">Place Order via WhatsApp</button>
+</div>
+
+<div class="section" id="contact">
+  <h2>Contact Us</h2>
+  <p>📍 Pretoria, South Africa</p>
+  <p>📞 Call / WhatsApp: 012 345 6789</p>
+</div>
+
+<footer>
+  <p>© 2026 At Buffet Zone. All rights reserved.</p>
+</footer>
+
+<script>
+let cart = [];
+
+function addToCart(name, price){
+  cart.push({name, price});
+  displayCart();
+}
+
+function displayCart(){
+  let cartDiv = document.getElementById('cart');
+  cartDiv.innerHTML = '';
+  let total = 0;
+
+  cart.forEach(item => {
+    total += item.price;
+    cartDiv.innerHTML += `<p>${item.name} - R${item.price}</p>`;
+  });
+
+  cartDiv.innerHTML += `<h3>Total: R${total}</h3>`;
+}
+
+function placeOrder(){
+  let name = document.getElementById('name').value;
+  let phone = document.getElementById('phone').value;
+  let address = document.getElementById('address').value;
+
+  if(cart.length === 0){
+    alert('Cart is empty');
+    return;
+  }
+
+  let orderText = `Order from At Buffet Zone:%0A`;
+
+  cart.forEach(item => {
+    orderText += `${item.name} - R${item.price}%0A`;
+  });
+
+  orderText += `%0ATotal: R${cart.reduce((sum,i)=>sum+i.price,0)}%0A`;
+  orderText += `Name: ${name}%0APhone: ${phone}%0AAddress: ${address}`;
+
+  window.open(`https://wa.me/27123456789?text=${orderText}`);
+}
+</script>
+
+</body>
+</html>
